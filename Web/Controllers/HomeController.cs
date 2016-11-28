@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         IAspNetUserService _userService;
 
@@ -20,14 +20,14 @@ namespace Web.Controllers
             _userService = userService;
         }
 
-        public ActionResult Index()
+        public JsonResult Index()
         {
             var db = new Entities();
             Mapper.Initialize(cfg=>cfg.CreateMap<AspNetUser, AspNetUserViewModel>());
 
 
             var data = db.AspNetUsers.ProjectTo<AspNetUserViewModel>().ToList() ;
-            return View();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult About()
